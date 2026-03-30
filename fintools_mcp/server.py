@@ -381,7 +381,9 @@ def compare_tickers(
     """
     results = []
     for ticker in tickers[:10]:  # cap at 10
+        # Use 1y for 200 EMA to have enough bars, requested period for everything else
         bars = fetch_bars(ticker, period=period, interval="1d")
+        bars_1y = fetch_bars(ticker, period="1y", interval="1d") if period != "1y" else bars
         if not bars:
             results.append({"ticker": ticker.upper(), "error": "no data"})
             continue
@@ -392,11 +394,32 @@ def compare_tickers(
 
         rsi = compute_rsi(closes)
         atr = compute_atr(highs, lows, closes)
+        ema_9 = compute_ema(closes, 9)
+        ema_21 = compute_ema(closes, 21)
         ema_50 = compute_ema(closes, 50)
-        ema_200 = compute_ema(closes, 200)
+
+        # 200 EMA needs 1y of data
+        closes_1y = [b.close for b in bars_1y] if bars_1y else closes
+        ema_200 = compute_ema(closes_1y, 200)
 
         price = bars[-1].close
         change_pct = ((price - bars[0].close) / bars[0].close) * 100 if bars[0].close else 0
+
+        # Trend assessment using same logic as get_technical_indicators
+        trend_signals = []
+        if ema_9 and ema_21:
+            trend_signals.append("bullish" if ema_9 > ema_21 else "bearish")
+        if ema_50 and ema_200:
+            trend_signals.append("bullish" if ema_50 > ema_200 else "bearish")
+        if price and ema_200:
+            trend_signals.append("bullish" if price > ema_200 else "bearish")
+
+        if trend_signals:
+            bullish = sum(1 for s in trend_signals if s == "bullish")
+            bearish = sum(1 for s in trend_signals if s == "bearish")
+            trend = "bullish" if bullish > bearish else "bearish" if bearish > bullish else "neutral"
+        else:
+            trend = "unknown"
 
         results.append({
             "ticker": ticker.upper(),
@@ -406,7 +429,7 @@ def compare_tickers(
             "atr": round(atr, 2) if atr else None,
             "above_50ema": price > ema_50 if ema_50 else None,
             "above_200ema": price > ema_200 if ema_200 else None,
-            "trend": "bullish" if (ema_50 and ema_200 and ema_50 > ema_200) else "bearish" if (ema_50 and ema_200) else "unknown",
+            "trend": trend,
         })
 
     return json.dumps({"comparison": results, "period": period}, indent=2)
