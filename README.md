@@ -10,11 +10,18 @@ Give Claude, ChatGPT, Cursor, or any MCP-compatible AI access to real financial 
 |------|-------------|
 | `get_technical_indicators` | RSI, MACD, ATR, EMAs (9/21/50/200), Fibonacci levels, trend assessment |
 | `get_stock_quote` | Current price, volume, 52-week range, market cap |
+| `get_trend_score` | Trend score from -100 (strong downtrend) to +100 (strong uptrend) with component breakdown |
+| `get_support_resistance` | Key support/resistance levels with touch counts and strength ratings |
+| `screen_stocks` | Screen S&P 500 by RSI, trend score, EMA position, relative volume — find setups fast |
 | `analyze_options_chain` | Options chain with IV analysis, liquidity filtering, put/call ratios |
 | `calculate_position_size` | Risk-based position sizing with stop loss and profit target |
 | `calculate_atr_position` | ATR-based position sizing — auto-calculates stop and target from volatility |
 | `analyze_trades` | Win rate, profit factor, Sharpe ratio, drawdown, streaks from trade P&Ls |
 | `compare_tickers` | Side-by-side technical comparison across multiple symbols |
+
+## How it works
+
+![fintools-mcp sequence diagram](docs/diagram.png)
 
 ## Quick Start
 
@@ -67,6 +74,9 @@ claude mcp add fintools -- uv run --from fintools-mcp fintools-mcp
 
 Once configured, you can ask your AI assistant things like:
 
+- "Find oversold S&P 500 stocks still above their 200 EMA"
+- "What's SPY's trend score?"
+- "Show me support and resistance levels for NVDA"
 - "What's the technical setup on AAPL right now?"
 - "Analyze the SPY options chain for next Friday"
 - "If I want to go long NVDA with a $100k account risking 1.5%, how many shares and where's my stop?"
