@@ -612,6 +612,90 @@ def get_trend_score(
 
 
 # ---------------------------------------------------------------------------
+# Tool: Option Quote
+# ---------------------------------------------------------------------------
+
+@mcp.tool()
+def get_option_quote(
+    option_symbol: str,
+    entry_price: float = 0.0,
+) -> str:
+    """Get a live quote + greeks for a specific option contract, with P&L if entry price provided.
+
+    Args:
+        option_symbol: OCC option symbol (e.g. AAPL260406P00250000, SPY260331C00640000)
+        entry_price: Your entry premium per contract (optional — enables P&L calculation)
+    """
+    import re
+    import math
+
+    # Parse the OCC symbol: ROOT + YYMMDD + C/P + STRIKE(8 digits, strike*1000)
+    match = re.match(r'^([A-Z]+)(\d{6})([CP])(\d{8})$', option_symbol.upper())
+    if not match:
+        return json.dumps({"error": f"Invalid option symbol: {option_symbol}. Expected format like AAPL260406P00250000"})
+
+    root = match.group(1)
+    date_str = match.group(2)
+    opt_type = "put" if match.group(3) == "P" else "call"
+    strike = int(match.group(4)) / 1000
+
+    expiration = f"20{date_str[:2]}-{date_str[2:4]}-{date_str[4:6]}"
+
+    # Fetch the chain for this expiration
+    try:
+        chain = fetch_options_chain(root, expiration)
+    except Exception as e:
+        return json.dumps({"error": f"Failed to fetch chain for {root} exp {expiration}: {str(e)}"})
+
+    contracts = chain["puts"] if opt_type == "put" else chain["calls"]
+
+    # Find the matching contract
+    found = None
+    for c in contracts:
+        if abs(c["strike"] - strike) < 0.01:
+            found = c
+            break
+
+    if not found:
+        return json.dumps({"error": f"Contract {option_symbol} not found in chain"})
+
+    bid = found["bid"]
+    ask = found["ask"]
+    mid = (bid + ask) / 2 if (bid + ask) > 0 else found["last"]
+    spread = ask - bid
+    spread_pct = (spread / mid * 100) if mid > 0 else 0
+    iv = found["iv"]
+
+    result = {
+        "symbol": option_symbol.upper(),
+        "underlying": root,
+        "type": opt_type,
+        "strike": strike,
+        "expiration": expiration,
+        "underlying_price": chain["underlying_price"],
+        "bid": bid,
+        "ask": ask,
+        "mid": round(mid, 2),
+        "last": found["last"],
+        "spread": round(spread, 2),
+        "spread_pct": round(spread_pct, 1),
+        "volume": found["volume"],
+        "open_interest": found["open_interest"],
+        "iv": round(iv * 100, 1) if iv < 1 else round(iv, 1),
+    }
+
+    if entry_price > 0:
+        pnl_per_contract = (mid - entry_price) * 100
+        pnl_pct = ((mid - entry_price) / entry_price) * 100
+        result["entry_price"] = entry_price
+        result["pnl_per_contract"] = round(pnl_per_contract, 2)
+        result["pnl_pct"] = round(pnl_pct, 1)
+        result["status"] = "profit" if mid > entry_price else "loss"
+
+    return json.dumps(result, indent=2)
+
+
+# ---------------------------------------------------------------------------
 # Entry point
 # ---------------------------------------------------------------------------
 
