@@ -70,18 +70,30 @@ def fetch_options_chain(ticker: str, expiration: str | None = None) -> dict:
 
     underlying_price = tk.fast_info.get("lastPrice", 0) or 0
 
+    def _safe_int(val, default=0):
+        import math
+        if val is None or (isinstance(val, float) and math.isnan(val)):
+            return default
+        return int(val)
+
+    def _safe_float(val, default=0.0):
+        import math
+        if val is None or (isinstance(val, float) and math.isnan(val)):
+            return default
+        return float(val)
+
     def chain_to_dicts(df) -> list[dict]:
         records = []
         for _, row in df.iterrows():
             records.append({
                 "contract": row.get("contractSymbol", ""),
-                "strike": float(row.get("strike", 0)),
-                "last": float(row.get("lastPrice", 0)),
-                "bid": float(row.get("bid", 0)),
-                "ask": float(row.get("ask", 0)),
-                "volume": int(row.get("volume", 0) or 0),
-                "open_interest": int(row.get("openInterest", 0) or 0),
-                "iv": float(row.get("impliedVolatility", 0)),
+                "strike": _safe_float(row.get("strike", 0)),
+                "last": _safe_float(row.get("lastPrice", 0)),
+                "bid": _safe_float(row.get("bid", 0)),
+                "ask": _safe_float(row.get("ask", 0)),
+                "volume": _safe_int(row.get("volume", 0)),
+                "open_interest": _safe_int(row.get("openInterest", 0)),
+                "iv": _safe_float(row.get("impliedVolatility", 0)),
                 "in_the_money": bool(row.get("inTheMoney", False)),
             })
         return records
