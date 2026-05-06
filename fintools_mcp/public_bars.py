@@ -17,11 +17,14 @@ import base64
 import json as _json
 import logging
 import os
+import re
 import time
 from datetime import datetime
 from pathlib import Path
 
 import httpx
+
+_TICKER_RE = re.compile(r"^[A-Z0-9.\-]{1,10}$")
 
 logger = logging.getLogger(__name__)
 
@@ -34,7 +37,13 @@ def _read_env_file_var(path: Path, key: str) -> str:
     for line in path.read_text().splitlines():
         line = line.strip()
         if line.startswith(prefix):
-            return line.split("=", 1)[1].strip().strip('"').strip("'")
+            value = line.split("=", 1)[1]
+            # Strip inline `#` comments (only when the # isn't inside quotes)
+            if value and value[0] not in ("'", '"'):
+                hash_idx = value.find("#")
+                if hash_idx >= 0:
+                    value = value[:hash_idx]
+            return value.strip().strip('"').strip("'")
     return ""
 
 
@@ -125,9 +134,12 @@ def fetch_daily_bars(ticker: str, period: str = "6mo") -> list:
     if not secret:
         raise RuntimeError("PUBLIC_SECRET_KEY not set")
 
+    if not _TICKER_RE.match(ticker.upper()):
+        raise ValueError(f"invalid ticker symbol: {ticker!r}")
+
     pub_period, days = _PERIOD_MAP.get(period, ("YEAR", 252))
     token = _ensure_token(secret)
-    url = f"{_BASE_URL}/userapigateway/historicdata/{ticker}/{pub_period}"
+    url = f"{_BASE_URL}/userapigateway/historicdata/{ticker.upper()}/{pub_period}"
     headers = {"Authorization": f"Bearer {token}", "Accept": "application/json"}
 
     with httpx.Client(timeout=15) as client:
