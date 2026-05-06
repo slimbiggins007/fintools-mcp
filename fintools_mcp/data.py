@@ -1,11 +1,21 @@
-"""Market data fetching via yfinance."""
+"""Market data fetching.
+
+Default source is yfinance. Optional Public.com bars source activated via
+env vars FINTOOLS_DATA_SOURCE=public + PUBLIC_SECRET_KEY (or read from
+~/sre-v1/.env). Public is daily-only — intraday intervals always use yfinance.
+"""
 
 from __future__ import annotations
 
+import logging
 from dataclasses import dataclass
 from datetime import datetime
 
 import yfinance as yf
+
+from fintools_mcp import public_bars
+
+logger = logging.getLogger(__name__)
 
 
 @dataclass
@@ -19,7 +29,12 @@ class Bar:
 
 
 def fetch_bars(ticker: str, period: str = "1mo", interval: str = "1d") -> list[Bar]:
-    """Fetch historical bars from Yahoo Finance.
+    """Fetch historical bars.
+
+    Default source: yfinance. If FINTOOLS_DATA_SOURCE=public is set in the
+    env AND PUBLIC_SECRET_KEY is available, daily bars (interval="1d") route
+    through Public.com instead. Falls back to yfinance silently on Public
+    failure. Intraday intervals always use yfinance.
 
     Args:
         ticker: Stock symbol (e.g. "AAPL")
@@ -29,6 +44,15 @@ def fetch_bars(ticker: str, period: str = "1mo", interval: str = "1d") -> list[B
     Returns:
         List of Bar objects, oldest first.
     """
+    if interval == "1d" and public_bars.is_enabled():
+        try:
+            return public_bars.fetch_daily_bars(ticker, period=period)
+        except Exception as e:
+            logger.warning(
+                "Public bars failed for %s/%s — falling back to yfinance: %s",
+                ticker, period, e,
+            )
+
     tk = yf.Ticker(ticker)
     df = tk.history(period=period, interval=interval)
 
