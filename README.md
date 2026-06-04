@@ -13,6 +13,7 @@ Give Claude, ChatGPT, Cursor, or any MCP-compatible AI access to real financial 
 | `get_trend_score` | Trend score from -100 (strong downtrend) to +100 (strong uptrend) with component breakdown |
 | `get_support_resistance` | Key support/resistance levels with touch counts and strength ratings |
 | `screen_stocks` | Screen S&P 500 by RSI, trend score, EMA position, relative volume — find setups fast |
+| `get_data_source_stats` | Show cache status and provider request counters for the current MCP session |
 | `analyze_options_chain` | Options chain with IV analysis, liquidity filtering, put/call ratios |
 | `calculate_position_size` | Risk-based position sizing with stop loss and profit target |
 | `calculate_atr_position` | ATR-based position sizing — auto-calculates stop and target from volatility |
@@ -115,7 +116,8 @@ SPY @ $573.42
 fintools-mcp/
 ├── fintools_mcp/
 │   ├── server.py              # MCP server — tool definitions
-│   ├── data.py                # Market data via yfinance
+│   ├── data.py                # Market data via yfinance/Public with cache + batch fetch helpers
+│   ├── data_cache.py          # File-backed cache for repeated quote/bar requests
 │   ├── indicators/            # Technical indicators (standalone, no deps)
 │   │   ├── rsi.py             # RSI — Wilder's smoothing
 │   │   ├── macd.py            # MACD (12, 26, 9)
@@ -133,7 +135,22 @@ fintools-mcp/
 
 - **Stock data:** Yahoo Finance (free, no API key required)
 - **Options data:** Yahoo Finance options chains
+- **Optional daily bars:** Public.com via `FINTOOLS_DATA_SOURCE=public` + `PUBLIC_SECRET_KEY`
+- **Cache:** enabled by default at `~/.cache/fintools-mcp`
 - No API keys needed for basic functionality.
+
+Cache controls:
+
+```bash
+FINTOOLS_CACHE_ENABLED=0                 # disable cache
+FINTOOLS_CACHE_DIR=/path/to/cache        # override cache location
+FINTOOLS_DAILY_CACHE_TTL_SECONDS=900     # default daily-bar TTL
+FINTOOLS_INTRADAY_CACHE_TTL_SECONDS=60   # default intraday-bar TTL
+FINTOOLS_QUOTE_CACHE_TTL_SECONDS=15      # default quote TTL
+```
+
+For live options marks and execution-quality chains, use the SRE/Public.com MCP
+instead of yfinance-backed option tools.
 
 ## Development
 

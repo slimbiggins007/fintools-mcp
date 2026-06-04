@@ -11,7 +11,13 @@ from dataclasses import asdict
 
 from mcp.server.fastmcp import FastMCP
 
-from fintools_mcp.data import fetch_bars, fetch_options_chain, fetch_quote
+from fintools_mcp.data import (
+    fetch_bars,
+    fetch_bars_many,
+    fetch_options_chain,
+    fetch_quote,
+    get_data_cache_stats,
+)
 from fintools_mcp.indicators.rsi import compute_rsi
 from fintools_mcp.indicators.macd import compute_macd
 from fintools_mcp.indicators.atr import compute_atr
@@ -657,11 +663,13 @@ def find_breakouts(
             continue
         filtered.append(r)
 
-    # Compute EMA phase for each
+    # Compute EMA phase for each candidate.
     output = []
-    for r in filtered[:max_results]:
+    top_filtered = filtered[:max_results]
+    bars_by_ticker = fetch_bars_many([r.ticker for r in top_filtered], period="6mo", interval="1d")
+    for r in top_filtered:
         try:
-            bars = fetch_bars(r.ticker, period="6mo", interval="1d")
+            bars = bars_by_ticker.get(r.ticker, [])
             if not bars or len(bars) < 50:
                 continue
             closes = [b.close for b in bars]
@@ -709,6 +717,16 @@ def find_breakouts(
     }
 
     return json.dumps(summary, indent=2)
+
+
+# ---------------------------------------------------------------------------
+# Tool: Data Source Stats
+# ---------------------------------------------------------------------------
+
+@mcp.tool()
+def get_data_source_stats() -> str:
+    """Show fintools cache status and provider request counters for this MCP session."""
+    return json.dumps(get_data_cache_stats(), indent=2)
 
 
 # ---------------------------------------------------------------------------

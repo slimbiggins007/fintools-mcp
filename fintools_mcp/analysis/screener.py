@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 
-from fintools_mcp.data import fetch_bars
+from fintools_mcp.data import fetch_bars_many
 from fintools_mcp.indicators.rsi import compute_rsi
 from fintools_mcp.indicators.atr import compute_atr
 from fintools_mcp.indicators.ema import compute_ema
@@ -81,9 +81,11 @@ def screen(
 
     results = []
 
+    bars_by_ticker = fetch_bars_many(scan_list, period="1y", interval="1d")
+
     for ticker in scan_list:
         try:
-            bars_1y = fetch_bars(ticker, period="1y", interval="1d")
+            bars_1y = bars_by_ticker.get(ticker.upper(), [])
             if not bars_1y or len(bars_1y) < 50:
                 continue
 
