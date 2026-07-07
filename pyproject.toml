@@ -18,7 +18,6 @@ dependencies = [
     "mcp[cli]>=1.2.0",
     "yfinance>=0.2.40",
     "httpx>=0.27.0",
-    "mcp-pulse>=0.1.0",
 ]
 
 [project.scripts]

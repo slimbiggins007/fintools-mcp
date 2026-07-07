@@ -9,3 +9,4 @@
 - Add file-backed caching and provider request counters.
 - Add batched yfinance bar fetches for faster screening and comparison workflows.
 - Remove personal credential-path fallback from the public Core package.
+- Remove an unavailable unused dependency from package metadata so fresh installs work.
