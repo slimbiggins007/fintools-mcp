@@ -1,30 +1,48 @@
 # fintools-mcp
 
-Financial analysis tools for AI assistants via [MCP](https://modelcontextprotocol.io) (Model Context Protocol).
+Fintools Core is the free MCP connector for Fintools.
 
-Give Claude, ChatGPT, Cursor, or any MCP-compatible AI access to real financial analysis — not just stock prices, but the analytical toolkit a trader actually uses.
+It verifies that Claude, Codex, Cursor, or another MCP-compatible assistant can connect to Fintools and fetch basic market data. The market-context workflow tools are paid Fintools Pro capabilities.
 
-This repository is **Fintools Core**: the free, open-source MCP foundation. See [VISION.md](VISION.md) for the public product direction and guardrails.
+See [VISION.md](VISION.md) for the public product direction and guardrails.
 
-## Tools
+## Core vs Pro
+
+Fintools has two surfaces:
+
+| Edition | What it is | Included |
+|---|---|---|
+| **Fintools Core** | Free connector/demo tier | MCP connection check, product info, basic stock quote, data/cache status |
+| **Fintools Pro** | Paid local market-context desk | trend score, technical indicators, support/resistance, screens, breakout discovery, ticker comparison, options context, sizing math, market snapshot/day-context gates, winner-similarity ranking, playbooks |
+
+Core is intentionally limited. If a user asks Core for a Pro workflow, the tool returns `upgrade_required` instead of pretending to compute something it does not include.
+
+## Core Tools
 
 | Tool | What it does |
-|------|-------------|
-| `get_technical_indicators` | RSI, MACD, ATR, EMAs (9/21/50/200), Fibonacci levels, trend assessment |
-| `get_stock_quote` | Current price, volume, 52-week range, market cap |
-| `get_trend_score` | Trend score from -100 (strong downtrend) to +100 (strong uptrend) with component breakdown |
-| `get_support_resistance` | Key support/resistance levels with touch counts and strength ratings |
-| `screen_stocks` | Screen S&P 500 by RSI, trend score, EMA position, relative volume — find setups fast |
-| `get_data_source_stats` | Show cache status and provider request counters for the current MCP session |
-| `analyze_options_chain` | Options chain with IV analysis, liquidity filtering, put/call ratios |
-| `calculate_position_size` | Risk-based position sizing with stop loss and profit target |
-| `calculate_atr_position` | ATR-based position sizing — auto-calculates stop and target from volatility |
-| `analyze_trades` | Win rate, profit factor, Sharpe ratio, drawdown, streaks from trade P&Ls |
-| `compare_tickers` | Side-by-side technical comparison across multiple symbols |
+|---|---|
+| `about_fintools` | Explains Core vs Pro and routes Pro-only requests honestly |
+| `check_connection` | Confirms the MCP server is connected |
+| `get_stock_quote` | Fetches a basic stock quote |
+| `get_data_source_stats` | Shows cache status and provider request counters |
 
-## How it works
+## Pro-Gated Tools
 
-![fintools-mcp sequence diagram](docs/diagram.png)
+These tool names are present in Core as hard paywall stubs. They return `upgrade_required` in Core and are implemented in Fintools Pro:
+
+- `get_trend_score`
+- `get_technical_indicators`
+- `get_support_resistance`
+- `screen_stocks`
+- `find_breakouts`
+- `compare_tickers`
+- `analyze_options_chain`
+- `get_option_quote`
+- `calculate_position_size`
+- `calculate_atr_position`
+- `analyze_trades`
+- `get_market_snapshot`
+- `winner_similarity_scan`
 
 ## Quick Start
 
@@ -73,86 +91,52 @@ Or if installed via pip:
 claude mcp add fintools -- uv run --from fintools-mcp fintools-mcp
 ```
 
-## Examples
+## CLI Checks
 
-Once configured, you can ask your AI assistant things like:
-
-- "Find oversold S&P 500 stocks still above their 200 EMA"
-- "What's SPY's trend score?"
-- "Show me support and resistance levels for NVDA"
-- "What's the technical setup on AAPL right now?"
-- "Analyze the SPY options chain for next Friday"
-- "If I want to go long NVDA with a $100k account risking 1.5%, how many shares and where's my stop?"
-- "Compare AAPL, GOOGL, MSFT, and AMZN — which has the strongest trend?"
-- "Here are my last 20 trades: [150, -80, 200, ...] — what's my win rate and Sharpe?"
-
-## Example Output
-
-### Technical Indicators
-```
-> "What's the technical setup on SPY?"
-
-SPY @ $573.42
-  RSI(14): 58.3 — bullish momentum
-  MACD: 2.14 (histogram +0.38, bullish)
-  ATR(14): $7.82
-  EMAs: 9 > 21 > 50 > 200 (fully stacked bullish)
-  Fibonacci: In golden pocket (0.618-0.65 retracement)
-  Trend: Bullish (all signals aligned)
+```bash
+fintools-mcp --version
+fintools-mcp --about
 ```
 
-### Position Sizing
-```
-> "Size a long position on AAPL at $227, stop $220, target $245"
+## Example Core Prompts
 
-  Shares: 214
-  Position value: $48,578
-  Risk: $1,498 (1.5% of $100k)
-  Reward: $3,852
-  R:R ratio: 2.57
+Once configured, ask:
+
+- "Check the Fintools connection."
+- "What does Fintools Core include?"
+- "Get a basic quote for SPY."
+- "Show Fintools data-source stats."
+
+If you ask for trader workflow analysis:
+
+```text
+What's SPY's trend score?
 ```
 
-## Architecture
+Core returns:
 
+```json
+{
+  "error": "upgrade_required",
+  "required_edition": "Fintools Pro"
+}
 ```
-fintools-mcp/
-├── fintools_mcp/
-│   ├── server.py              # MCP server — tool definitions
-│   ├── data.py                # Market data via yfinance/Public with cache + batch fetch helpers
-│   ├── data_cache.py          # File-backed cache for repeated quote/bar requests
-│   ├── indicators/            # Technical indicators (standalone, no deps)
-│   │   ├── rsi.py             # RSI — Wilder's smoothing
-│   │   ├── macd.py            # MACD (12, 26, 9)
-│   │   ├── atr.py             # ATR — Average True Range
-│   │   ├── ema.py             # EMA — any period
-│   │   ├── vwap.py            # VWAP — intraday, daily reset
-│   │   └── fibonacci.py       # Fibonacci retracement + golden pocket
-│   └── analysis/
-│       ├── position_sizer.py  # Risk-based + ATR-based sizing
-│       └── trade_stats.py     # KPI calculator (60+ metrics)
-└── tests/
-```
+
+That boundary is deliberate. Core proves the connection works. Pro is the market-context and research layer.
 
 ## Data Sources
 
-- **Stock data:** Yahoo Finance (free, no API key required)
-- **Options data:** Yahoo Finance options chains
-- **Optional daily bars:** Public.com via `FINTOOLS_DATA_SOURCE=public` + `PUBLIC_SECRET_KEY`
+- **Basic stock quotes:** Yahoo Finance
 - **Cache:** enabled by default at `~/.cache/fintools-mcp`
-- No API keys needed for basic functionality.
+- No API keys are needed for Core.
 
 Cache controls:
 
 ```bash
 FINTOOLS_CACHE_ENABLED=0                 # disable cache
 FINTOOLS_CACHE_DIR=/path/to/cache        # override cache location
-FINTOOLS_DAILY_CACHE_TTL_SECONDS=900     # default daily-bar TTL
-FINTOOLS_INTRADAY_CACHE_TTL_SECONDS=60   # default intraday-bar TTL
 FINTOOLS_QUOTE_CACHE_TTL_SECONDS=15      # default quote TTL
 ```
-
-For live options marks and execution-quality chains, use your broker's own data
-or MCP integration instead of yfinance-backed option tools.
 
 ## Development
 
@@ -164,9 +148,14 @@ uv run python -m fintools_mcp  # starts the MCP server
 ```
 
 Run tests:
+
 ```bash
 uv run pytest
 ```
+
+## Guardrails
+
+Fintools is read-only market-analysis software. It is not a broker, signal service, hedge fund, raw-data vendor, or investment adviser. It does not place trades, route orders, manage funds, or provide buy/sell/hold recommendations.
 
 ## License
 

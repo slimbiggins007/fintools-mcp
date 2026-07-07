@@ -1,3 +1,3 @@
-"""fintools-mcp — Financial analysis tools for AI assistants via MCP."""
+"""fintools-mcp — Fintools Core MCP connector."""
 
-__version__ = "0.5.0"
+__version__ = "0.6.0"
