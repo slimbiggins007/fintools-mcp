@@ -4,6 +4,8 @@ Financial analysis tools for AI assistants via [MCP](https://modelcontextprotoco
 
 Give Claude, ChatGPT, Cursor, or any MCP-compatible AI access to real financial analysis — not just stock prices, but the analytical toolkit a trader actually uses.
 
+This repository is **Fintools Core**: the free, open-source MCP foundation. See [VISION.md](VISION.md) for the public product direction and guardrails.
+
 ## Tools
 
 | Tool | What it does |
@@ -149,8 +151,8 @@ FINTOOLS_INTRADAY_CACHE_TTL_SECONDS=60   # default intraday-bar TTL
 FINTOOLS_QUOTE_CACHE_TTL_SECONDS=15      # default quote TTL
 ```
 
-For live options marks and execution-quality chains, use the SRE/Public.com MCP
-instead of yfinance-backed option tools.
+For live options marks and execution-quality chains, use your broker's own data
+or MCP integration instead of yfinance-backed option tools.
 
 ## Development
 

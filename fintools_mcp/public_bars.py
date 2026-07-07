@@ -48,11 +48,11 @@ def _read_env_file_var(path: Path, key: str) -> str:
 
 
 def _from_env_or_files(key: str) -> str:
-    """Resolve from process env, then ~/sre-v1/.env, then ~/fintools-mcp/.env."""
+    """Resolve from process env, then ~/.fintools/.env, then ~/fintools-mcp/.env."""
     val = os.getenv(key, "").strip()
     if val:
         return val
-    for env_path in (Path.home() / "sre-v1" / ".env", Path.home() / "fintools-mcp" / ".env"):
+    for env_path in (Path.home() / ".fintools" / ".env", Path.home() / "fintools-mcp" / ".env"):
         v = _read_env_file_var(env_path, key)
         if v:
             return v
@@ -115,7 +115,7 @@ def _ensure_token(secret_key: str) -> str:
 def is_enabled() -> bool:
     """True if Public bars should be used for daily fetches.
 
-    Resolved from process env or any of: ~/sre-v1/.env, ~/fintools-mcp/.env.
+    Resolved from process env or any of: ~/.fintools/.env, ~/fintools-mcp/.env.
     Requires FINTOOLS_DATA_SOURCE=public AND a non-empty PUBLIC_SECRET_KEY.
     """
     if _from_env_or_files("FINTOOLS_DATA_SOURCE").lower() != "public":

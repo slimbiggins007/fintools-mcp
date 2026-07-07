@@ -2,7 +2,8 @@
 
 Default source is yfinance. Optional Public.com bars source activated via
 env vars FINTOOLS_DATA_SOURCE=public + PUBLIC_SECRET_KEY (or read from
-~/sre-v1/.env). Public is daily-only — intraday intervals always use yfinance.
+~/.fintools/.env or ~/fintools-mcp/.env). Public is daily-only — intraday
+intervals always use yfinance.
 """
 
 from __future__ import annotations

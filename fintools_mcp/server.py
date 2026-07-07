@@ -631,7 +631,7 @@ def find_breakouts(
 ) -> str:
     """Scan S&P 500 top 100 for breakout candidates — stocks in strong uptrends with bullish EMA stacks.
 
-    Finds stocks the V3 breakout engine should be watching. Filters for:
+    Finds stocks that match a basic breakout-watchlist profile. Filters for:
     - Strong trend score (default >= 30)
     - RSI in momentum range (45-75, not overbought or oversold)
     - Price above both 50 and 200 EMA (bullish structure)
