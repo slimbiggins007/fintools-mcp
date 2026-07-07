@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.6.1
+
+- Point Core upgrade responses at the live Fintools Pro checkout.
+- Include the founding discount code in Pro-gated tool responses.
+
 ## 0.6.0
 
 - Demote Fintools Core to a free connector/demo tier.

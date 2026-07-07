@@ -13,7 +13,8 @@ def test_about_fintools_describes_core_and_pro():
     assert payload["edition"] == "Core"
     assert "get_stock_quote" in payload["core_tools"]
     assert "get_trend_score" in payload["pro_tools"]
-    assert payload["upgrade"]["status"] == "coming_soon"
+    assert payload["upgrade"]["status"] == "available"
+    assert payload["upgrade"]["url"].startswith("https://fintools.lemonsqueezy.com/checkout/")
 
 
 def test_check_connection():
@@ -67,4 +68,5 @@ def test_pro_tools_return_upgrade_required():
         payload = _loads(raw)
         assert payload["error"] == "upgrade_required"
         assert payload["required_edition"] == "Fintools Pro"
-        assert payload["upgrade"]["status"] == "coming_soon"
+        assert payload["upgrade"]["status"] == "available"
+        assert payload["upgrade"]["discount_code"] == "FOUNDING"

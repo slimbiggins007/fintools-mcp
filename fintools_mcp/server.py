@@ -12,7 +12,7 @@ from fintools_mcp import __version__
 from fintools_mcp.data import fetch_quote, get_data_cache_stats
 
 PUBLIC_PROJECT_URL = "https://github.com/slimbiggins007/fintools-mcp"
-PRO_INFO_URL = "https://github.com/slimbiggins007/fintools-mcp/blob/main/VISION.md"
+PRO_CHECKOUT_URL = "https://fintools.lemonsqueezy.com/checkout/buy/b14fb872-7073-4c53-b75f-2c04283da855"
 
 CORE_TOOLS = [
     "about_fintools",
@@ -87,9 +87,10 @@ def _upgrade_required(tool_name: str, capability: str) -> str:
         ],
         "pro_unlocks": PRO_CAPABILITIES,
         "upgrade": {
-            "status": "coming_soon",
-            "url": PRO_INFO_URL,
-            "note": "Fintools Pro checkout will be added after merchant approval.",
+            "status": "available",
+            "url": PRO_CHECKOUT_URL,
+            "discount_code": "FOUNDING",
+            "note": "Founding buyers can use FOUNDING while the first-25 discount is available.",
         },
         "boundaries": BOUNDARIES,
     })
@@ -115,8 +116,9 @@ def about_fintools() -> str:
         "pro_tools": PRO_TOOLS,
         "pro_capabilities": PRO_CAPABILITIES,
         "upgrade": {
-            "status": "coming_soon",
-            "url": PRO_INFO_URL,
+            "status": "available",
+            "url": PRO_CHECKOUT_URL,
+            "discount_code": "FOUNDING",
         },
         "public_project": PUBLIC_PROJECT_URL,
         "boundaries": BOUNDARIES,

@@ -1,6 +1,6 @@
 [project]
 name = "fintools-mcp"
-version = "0.6.0"
+version = "0.6.1"
 description = "Fintools Core — free MCP connector with basic quotes and Pro upgrade gates"
 readme = "README.md"
 requires-python = ">=3.10"
