@@ -37,7 +37,7 @@ If a user needs licensed institutional data, they should bring that data through
 
 Fintools is research software. It is not broker truth.
 
-Use your broker or account system for:
+You can layer your own broker API, broker MCP, or account system into the same AI assistant workflow, but that layer is separate from Fintools. Use it for:
 
 - account balances
 - open positions
@@ -46,4 +46,4 @@ Use your broker or account system for:
 - fills
 - options execution quality
 
-Use Fintools for computed market context and structured research.
+Use Fintools for computed market context and structured research. Fintools itself remains read-only and does not route orders.

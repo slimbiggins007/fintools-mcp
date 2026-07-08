@@ -39,9 +39,9 @@ Use Fintools MCP when you want an AI assistant to answer market questions using 
 
 ## Broker Boundary
 
-Fintools MCP is broker-agnostic. It can be paired with a user's own broker MCP or account system, but broker integrations are not included.
+Fintools MCP is broker-agnostic. Users can pair it with their own broker API, broker MCP, or account system inside the same AI assistant workflow.
 
-Use Fintools MCP for market context. Use your broker for live executable quotes, positions, fills, and account truth.
+Use Fintools MCP for market context. Use your broker API/MCP for live executable quotes, positions, fills, account truth, options-chain vetting, and any order-routing workflow. Fintools does not ship broker integrations and does not place trades.
 
 ## Get Fintools MCP
 

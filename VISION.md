@@ -42,7 +42,7 @@ There is no separate AI trader and no separate broker product. Fintools is the l
 
 ## Broker Boundary
 
-Fintools is broker-agnostic. It can sit next to a user's own broker MCP or account system, but it does not include broker integrations and does not execute trades.
+Fintools is broker-agnostic. It can sit next to a user's own broker API, broker MCP, or account system. That lets the user's AI assistant combine Fintools market context with broker-side account truth, live executable quotes, positions, fills, and order-routing capability if the user has built or connected that layer.
 
 Use Fintools for:
 
@@ -54,13 +54,15 @@ Use Fintools for:
 - sizing math
 - report structure
 
-Use a broker or account system for:
+Use a broker API, broker MCP, or account system for:
 
 - account equity
 - positions
 - live executable quotes
 - order routing
 - fills and realized P&L
+
+Fintools does not ship that broker layer and does not place trades. It supplies the market-analysis context that can be layered beside broker truth.
 
 ## Operating Model
 

@@ -25,4 +25,4 @@ Options-chain context is not an instruction to trade. It is one more filter in t
 
 ## Broker Boundary
 
-For executable quotes, account positions, fills, and order routing, use your broker or account system. Fintools does not place trades and does not replace broker truth.
+For executable quotes, account positions, fills, and order routing, use your own broker API, broker MCP, or account system. You can layer that broker-side output into the same assistant workflow, but Fintools does not place trades and does not replace broker truth.

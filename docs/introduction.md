@@ -6,6 +6,8 @@ The point is simple: an AI assistant should not invent prices, levels, trend con
 
 Fintools is not a broker. It does not place trades. It does not connect to an account. It does not provide buy, sell, or hold recommendations. Trader judgment stays with the user.
 
+If a user wants account truth or execution workflows, they can layer their own broker API, broker MCP, or account system beside Fintools in the same AI assistant session. Fintools supplies market-analysis context; the user's broker layer supplies broker truth.
+
 ## The Product
 
 Fintools MCP is a paid local MCP package. It gives Claude, Codex, Cursor, and other MCP-compatible assistants read-only market-analysis tools:

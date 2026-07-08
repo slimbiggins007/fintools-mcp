@@ -87,9 +87,9 @@ If you ask the public connector for the full market-analysis toolbelt, it return
 
 ## Broker Boundary
 
-Fintools is broker-agnostic. It can be paired with a user's own broker MCP or account system for live account, position, and executable options checks, but broker integrations are not included and Fintools does not execute trades.
+Fintools is broker-agnostic. Users can layer their own broker API, broker MCP, or account system into the same AI assistant workflow for live account data, positions, executable quotes, options-chain vetting, order routing, fills, and realized P&L. That broker layer is separate from Fintools.
 
-Use Fintools for market context and research. Use your broker or account system for broker truth.
+Use Fintools for market context and research. Use your broker API/MCP or account system for broker truth and any execution workflow. Fintools itself remains read-only and does not place trades.
 
 ## Development
 
