@@ -2,12 +2,12 @@
 
 Use this workflow when the chart may look interesting but the options chain may not be usable.
 
-Options context is a Fintools Pro workflow.
+Options context is a Fintools MCP workflow.
 
 ## Prompt
 
 ```text
-Use Fintools Pro. For AMD, CRWD, and SCHW, check market context first, then options-chain context. Separate chart quality from options tradability. Include liquidity caveats and a Not checked section.
+Use Fintools MCP. For AMD, CRWD, and SCHW, check market context first, then options-chain context. Separate chart quality from options tradability. Include liquidity caveats and a Not checked section.
 ```
 
 ## What Good Looks Like

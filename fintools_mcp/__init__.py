@@ -1,3 +1,3 @@
-"""fintools-mcp — Fintools Core MCP connector."""
+"""fintools-mcp public connector."""
 
-__version__ = "0.6.1"
+__version__ = "0.6.2"

@@ -57,9 +57,9 @@ Do not debug a stale transport as if it were a market-data problem.
 
 ## Data Sources
 
-Core uses free quote data and a local cache. It does not require account access or broker credentials.
+The public connector uses free quote data and a local cache. It does not require account access or broker credentials.
 
-Core cache defaults:
+Public connector cache defaults:
 
 ```bash
 FINTOOLS_CACHE_ENABLED=0
@@ -67,4 +67,4 @@ FINTOOLS_CACHE_DIR=/path/to/cache
 FINTOOLS_QUOTE_CACHE_TTL_SECONDS=15
 ```
 
-Pro may use additional local configuration depending on the buyer's setup. Pro remains read-only.
+Fintools MCP may use additional local configuration depending on the buyer's setup. It remains read-only.

@@ -6,18 +6,23 @@ The point is simple: an AI assistant should not invent prices, levels, trend con
 
 Fintools is not a broker. It does not place trades. It does not connect to an account. It does not provide buy, sell, or hold recommendations. Trader judgment stays with the user.
 
-## The Product Shape
+## The Product
 
-Fintools has two surfaces.
+Fintools MCP is a paid local MCP package. It gives Claude, Codex, Cursor, and other MCP-compatible assistants read-only market-analysis tools:
 
-| Surface | Role |
-|---|---|
-| Fintools Core | Free public MCP connector. It verifies the install and provides basic quote/status tools. |
-| Fintools Pro | Paid local market-context desk. It contains the tools and playbooks for real research workflows. |
+- quotes and day context
+- trend scores
+- technical indicators
+- support/resistance
+- screens and breakout discovery
+- winner-similarity ranking
+- ticker comparison
+- options-chain context
+- sizing math
+- trade-stat review
+- playbooks and report structure
 
-Core is intentionally small. It is the public doorway.
-
-Pro is the desk: trend gates, chart context, support/resistance, screens, breakout discovery, market snapshots, day-context flags, options context, sizing math, candidate ranking, and playbooks.
+The public package in this repository is only the connector and documentation surface. It proves the MCP connection works and returns a basic quote. The full desk ships in the paid Fintools MCP download.
 
 ## Why It Exists
 

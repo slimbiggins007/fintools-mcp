@@ -7,12 +7,12 @@ def _loads(payload: str) -> dict:
     return json.loads(payload)
 
 
-def test_about_fintools_describes_core_and_pro():
+def test_about_fintools_describes_public_connector_and_paid_package():
     payload = _loads(server.about_fintools())
 
-    assert payload["edition"] == "Core"
-    assert "get_stock_quote" in payload["core_tools"]
-    assert "get_trend_score" in payload["pro_tools"]
+    assert payload["installed_package"] == "public Fintools connector"
+    assert "get_stock_quote" in payload["public_connector_tools"]
+    assert "get_trend_score" in payload["paid_fintools_mcp_tools"]
     assert payload["upgrade"]["status"] == "available"
     assert payload["upgrade"]["url"].startswith("https://fintools.lemonsqueezy.com/checkout/")
 
@@ -21,7 +21,7 @@ def test_check_connection():
     payload = _loads(server.check_connection())
 
     assert payload["status"] == "ok"
-    assert payload["edition"] == "Core"
+    assert payload["installed_package"] == "public Fintools connector"
 
 
 def test_stock_quote_uses_basic_quote(monkeypatch):
@@ -42,12 +42,12 @@ def test_stock_quote_uses_basic_quote(monkeypatch):
 
     payload = _loads(server.get_stock_quote("spy"))
 
-    assert payload["edition"] == "Fintools Core"
+    assert payload["installed_package"] == "public Fintools connector"
     assert payload["ticker"] == "SPY"
     assert payload["price"] == 100.0
 
 
-def test_pro_tools_return_upgrade_required():
+def test_paid_tools_return_upgrade_required():
     checks = [
         server.get_trend_score("SPY"),
         server.get_technical_indicators("SPY"),
@@ -67,6 +67,6 @@ def test_pro_tools_return_upgrade_required():
     for raw in checks:
         payload = _loads(raw)
         assert payload["error"] == "upgrade_required"
-        assert payload["required_edition"] == "Fintools Pro"
+        assert payload["required_package"] == "Fintools MCP"
         assert payload["upgrade"]["status"] == "available"
         assert payload["upgrade"]["discount_code"] == "FOUNDING"

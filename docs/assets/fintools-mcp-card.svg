@@ -1,0 +1,22 @@
+<svg width="1600" height="1200" viewBox="0 0 1600 1200" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1600" height="1200" fill="#101210"/>
+  <rect x="96" y="96" width="1408" height="1008" rx="28" fill="#171915" stroke="#34382F" stroke-width="2"/>
+
+  <text x="160" y="205" fill="#F4F1E8" font-family="Inter, Arial, sans-serif" font-size="58" font-weight="700">Fintools MCP</text>
+  <text x="160" y="274" fill="#B9B7AD" font-family="Inter, Arial, sans-serif" font-size="30">Read-only market analysis tools for AI assistants</text>
+
+  <rect x="160" y="355" width="1280" height="1" fill="#34382F"/>
+
+  <text x="160" y="455" fill="#F4F1E8" font-family="Inter, Arial, sans-serif" font-size="42" font-weight="700">Computed numbers. Not invented ones.</text>
+  <text x="160" y="525" fill="#C8C5BA" font-family="Inter, Arial, sans-serif" font-size="28">Quotes, trend gates, chart context, scans, options context,</text>
+  <text x="160" y="570" fill="#C8C5BA" font-family="Inter, Arial, sans-serif" font-size="28">day-context flags, candidate ranking, sizing math, and playbooks.</text>
+
+  <rect x="160" y="680" width="1280" height="220" rx="20" fill="#20231E" stroke="#3E4438" stroke-width="2"/>
+  <text x="210" y="750" fill="#B9D38B" font-family="Inter, Arial, sans-serif" font-size="28" font-weight="700">Local MCP server</text>
+  <text x="210" y="805" fill="#F4F1E8" font-family="Inter, Arial, sans-serif" font-size="26">Runs on your machine. No hosted account. No broker execution.</text>
+  <text x="210" y="855" fill="#F4F1E8" font-family="Inter, Arial, sans-serif" font-size="26">The AI writes the read. Fintools computes the market figures.</text>
+
+  <rect x="160" y="980" width="1280" height="1" fill="#34382F"/>
+  <text x="160" y="1045" fill="#B9B7AD" font-family="Inter, Arial, sans-serif" font-size="26">fintools.lemonsqueezy.com</text>
+  <text x="160" y="1090" fill="#8E8B82" font-family="Inter, Arial, sans-serif" font-size="21">Educational software. Not investment advice. No trade recommendations.</text>
+</svg>

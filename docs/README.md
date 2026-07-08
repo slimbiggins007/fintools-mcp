@@ -1,14 +1,14 @@
 # Fintools Docs
 
-Fintools is a local MCP market-analysis layer for AI assistants.
+Fintools is a local MCP market-analysis toolbelt for AI assistants.
 
-Core is the free connector. Pro is the paid local market-context desk.
+The public package verifies the connection. The paid Fintools MCP download contains the full read-only market-analysis desk.
 
 ## Overview
 
 - [Introduction](introduction.md)
 - [Quick Start](quick-start.md)
-- [Core vs Pro](core-vs-pro.md)
+- [Paid Package](paid-package.md)
 - [Guardrails](guardrails.md)
 
 ## Integrations

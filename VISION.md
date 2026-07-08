@@ -6,16 +6,27 @@ The goal is simple: give AI assistants computed market-context tools so they do 
 
 Fintools is not an AI hedge fund. It is not a signal service. It is not a broker. It is not a raw financial data vendor. It is a read-only tool layer that lets traders and AI assistants ask market questions and get answers grounded in tool output.
 
-## Core And Pro
+## Product Shape
 
-Fintools has two product surfaces:
+Fintools MCP is the product: a local, read-only market-analysis toolbelt for Claude, Codex, Cursor, and other MCP-compatible assistants.
 
-- **Fintools Core**: the free, open-source MCP connector in this repository. Core proves the local MCP connection works and provides basic quote/status functionality.
-- **Fintools Pro**: the paid local market-context and research layer. Pro contains the tools and playbooks meant for real trader workflows.
+The public repository provides a small connector and documentation hub. It proves the MCP wiring works and gives people a safe way to inspect the project.
 
-Core is deliberately small. It should stay stable, trustworthy, and useful for verifying the installation. It is not the market desk.
+The paid Fintools MCP package contains the complete desk:
 
-Pro is where Fintools' analysis work belongs: trend gates, day context, breakout discovery, custom screens, support/resistance, options context, sizing math, candidate ranking, playbooks, future memory, and future calibration.
+- market snapshots and day-context gates
+- trend scores and technical context
+- support/resistance
+- breakout discovery
+- custom screens
+- ticker comparison
+- options-chain context
+- position sizing and ATR sizing
+- trade-stat calculations
+- winner-similarity candidate ranking
+- playbooks, templates, sample reports, and methodology
+
+There is no separate AI trader and no separate broker product. Fintools is the local market-analysis layer. Trader judgment stays with the user.
 
 ## Principles
 
@@ -29,33 +40,29 @@ Pro is where Fintools' analysis work belongs: trend gates, day context, breakout
 - Explicit "not checked" caveats are a feature, not a weakness.
 - Trader judgment stays with the user.
 
-## What Core Is For
+## Broker Boundary
 
-Core gives MCP-compatible assistants a small free connector:
+Fintools is broker-agnostic. It can sit next to a user's own broker MCP or account system, but it does not include broker integrations and does not execute trades.
 
-- connection check
-- product and edition info
-- basic stock quote
-- data-source and cache visibility
-- clear `upgrade_required` boundaries for Pro tools
+Use Fintools for:
 
-Core exists so a user can confirm that Fintools works in their AI assistant before deciding whether they want the full desk.
+- historical bars
+- trend and chart context
+- scans and ranking
+- market snapshots
+- options research context
+- sizing math
+- report structure
 
-## What Pro Is For
+Use a broker or account system for:
 
-Pro is the market-context and research layer:
+- account equity
+- positions
+- live executable quotes
+- order routing
+- fills and realized P&L
 
-- trend score
-- technical indicators and chart context
-- support/resistance
-- breakout discovery
-- custom screens
-- ticker comparison
-- options-chain context
-- position sizing and ATR sizing
-- market snapshot and day-context gates
-- winner-similarity candidate ranking
-- desk playbooks and report workflows
+## Operating Model
 
 The model is not "AI makes the trade." The model is:
 

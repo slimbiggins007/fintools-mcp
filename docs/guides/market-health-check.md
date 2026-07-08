@@ -2,18 +2,18 @@
 
 Use this workflow when you want broad context before looking at individual names.
 
-## Core Prompt
+## Public Connector Prompt
 
 ```text
-Use Fintools Core. Check the connection, then get basic quotes for SPY, QQQ, IWM, and DIA. Tell me what Core could verify and what requires Fintools Pro.
+Use the public Fintools connector. Check the connection, then get basic quotes for SPY, QQQ, IWM, and DIA. Tell me what the public connector could verify and what requires the paid Fintools MCP package.
 ```
 
-Core can verify the connection and fetch basic quotes.
+The public connector can verify the connection and fetch basic quotes.
 
-## Pro Prompt
+## Fintools MCP Prompt
 
 ```text
-Use Fintools Pro. Run a market health check on SPY, QQQ, IWM, and DIA. Include trend context, day context, any weak-session flags, and a Not checked section.
+Use Fintools MCP. Run a market health check on SPY, QQQ, IWM, and DIA. Include trend context, day context, any weak-session flags, and a Not checked section.
 ```
 
 ## Expected Shape

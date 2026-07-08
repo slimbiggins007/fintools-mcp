@@ -1,4 +1,4 @@
-"""Basic market quote fetching for Fintools Core."""
+"""Basic market quote fetching for the public Fintools connector."""
 
 from __future__ import annotations
 

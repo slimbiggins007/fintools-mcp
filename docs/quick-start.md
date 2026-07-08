@@ -1,6 +1,6 @@
 # Quick Start
 
-This page gets the free Core connector running. Core is the public install path and the safest first test for any MCP client.
+This page gets the public Fintools connector running. It is the safest first test for any MCP client because it does not require account access, broker credentials, or the paid buyer package.
 
 ## Install
 
@@ -59,7 +59,7 @@ Then ask:
 Get a basic quote for SPY.
 ```
 
-Core should call tools and return real tool output. If the assistant answers without calling tools, restart the MCP client and check the server registration.
+The public connector should call tools and return real tool output. If the assistant answers without calling tools, restart the MCP client and check the server registration.
 
 ## CLI Checks
 
@@ -68,12 +68,10 @@ fintools-mcp --version
 fintools-mcp --about
 ```
 
-## Next Step
+## Full Fintools MCP
 
-Ask:
+The complete market-analysis toolbelt is distributed as the paid Fintools MCP package:
 
 ```text
-What does Fintools Core include, and what requires Fintools Pro?
+https://fintools.lemonsqueezy.com/checkout/buy/b14fb872-7073-4c53-b75f-2c04283da855
 ```
-
-Core will explain the boundary. Advanced market-context work is handled by Fintools Pro.
