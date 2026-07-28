@@ -17,7 +17,7 @@ uv pip install fintools-mcp
 ## Claude Code
 
 ```bash
-claude mcp add fintools -- uv run --from fintools-mcp fintools-mcp
+claude mcp add fintools -- uvx --from fintools-mcp fintools-mcp
 ```
 
 Restart Claude Code after adding the MCP server.
@@ -36,8 +36,8 @@ Add:
 {
   "mcpServers": {
     "fintools": {
-      "command": "uv",
-      "args": ["run", "--from", "fintools-mcp", "fintools-mcp"]
+      "command": "uvx",
+      "args": ["--from", "fintools-mcp", "fintools-mcp"]
     }
   }
 }

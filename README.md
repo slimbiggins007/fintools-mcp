@@ -48,7 +48,7 @@ pip install fintools-mcp
 Add it to Claude Code:
 
 ```bash
-claude mcp add fintools -- uv run --from fintools-mcp fintools-mcp
+claude mcp add fintools -- uvx --from fintools-mcp fintools-mcp
 ```
 
 Ask:
@@ -73,7 +73,7 @@ If you ask the public connector for the full market-analysis toolbelt, it return
 | [Quick Start](docs/quick-start.md) | Install the public connector, connect an MCP client, and verify the setup |
 | [Paid Package](docs/paid-package.md) | What ships in the paid Fintools MCP package |
 | [Guardrails](docs/guardrails.md) | Read-only design, no trade recommendations, and "not checked" caveats |
-| [MCP Setup](docs/mcp-setup.md) | Claude Code, Claude Desktop, Cursor-style MCP config, and reload checks |
+| [MCP Setup](docs/mcp-setup.md) | Claude Code, Claude Desktop, Cursor, Codex CLI, Windows, and reload checks |
 | [Media Kit](docs/media-kit.md) | Screenshot and demo-clip checklist for GitHub, Whop, and launch posts |
 
 ## Guides
