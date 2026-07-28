@@ -146,6 +146,9 @@ def get_stock_quote(ticker: str) -> str:
         ticker: Stock symbol, such as AAPL, SPY, or TSLA.
     """
     quote = fetch_quote(ticker)
+    if "error" in quote:
+        quote["installed_package"] = "public Fintools connector"
+        return _json(quote)
     return _json({
         "installed_package": "public Fintools connector",
         "ticker": quote.get("ticker", ticker.upper()),
@@ -273,13 +276,13 @@ def analyze_trades(pnls: list[float], starting_equity: float = 100000.0) -> str:
 
 
 @mcp.tool()
-def get_market_snapshot(ticker: str, period: str = "3mo") -> str:
+def get_market_snapshot(ticker: str) -> str:
     """Paid Fintools MCP required: day-context gates, flags, and fresh_add_status."""
     return _upgrade_required("get_market_snapshot", "Market snapshot and day-context gates")
 
 
 @mcp.tool()
-def winner_similarity_scan(tickers: str, max_results: int = 25) -> str:
+def winner_similarity_scan(tickers: str, exclude_symbols: str = "", max_results: int = 20) -> str:
     """Paid Fintools MCP required: winner-similarity candidate ranking and triage."""
     return _upgrade_required("winner_similarity_scan", "Winner-similarity candidate ranking")
 

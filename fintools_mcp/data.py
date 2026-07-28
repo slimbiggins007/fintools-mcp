@@ -29,19 +29,26 @@ def fetch_quote(ticker: str) -> dict:
         return cached
 
     tk = yf.Ticker(symbol)
-    info = tk.fast_info
     data_cache.record_provider_request("yfinance", "quote")
 
-    quote = {
-        "ticker": symbol,
-        "price": _safe_number(info.get("lastPrice")),
-        "open": _safe_number(info.get("open")),
-        "high": _safe_number(info.get("dayHigh")),
-        "low": _safe_number(info.get("dayLow")),
-        "previous_close": _safe_number(info.get("previousClose")),
-        "volume": _safe_number(info.get("lastVolume"), 0),
-        "market_cap": _safe_number(info.get("marketCap"), 0),
-    }
+    try:
+        # fast_info loads lazily; unknown tickers raise (e.g. KeyError) on first access.
+        info = tk.fast_info
+        quote = {
+            "ticker": symbol,
+            "price": _safe_number(info.get("lastPrice")),
+            "open": _safe_number(info.get("open")),
+            "high": _safe_number(info.get("dayHigh")),
+            "low": _safe_number(info.get("dayLow")),
+            "previous_close": _safe_number(info.get("previousClose")),
+            "volume": _safe_number(info.get("lastVolume"), 0),
+            "market_cap": _safe_number(info.get("marketCap"), 0),
+        }
+    except Exception:
+        return {
+            "error": f"no quote data for {symbol} (unknown ticker or provider unavailable)",
+            "ticker": symbol,
+        }
     data_cache.set_json(cache_key, quote)
     return quote
 

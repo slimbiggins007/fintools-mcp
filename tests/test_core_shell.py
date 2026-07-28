@@ -1,6 +1,8 @@
+import asyncio
 import json
 
 from fintools_mcp import server
+from fintools_mcp import data
 
 
 def _loads(payload: str) -> dict:
@@ -47,6 +49,40 @@ def test_stock_quote_uses_basic_quote(monkeypatch):
     assert payload["price"] == 100.0
 
 
+def test_stock_quote_returns_clean_error_payload(monkeypatch):
+    monkeypatch.setattr(
+        server,
+        "fetch_quote",
+        lambda ticker: {
+            "error": "no quote data for FAKE (unknown ticker or provider unavailable)",
+            "ticker": ticker.upper(),
+        },
+    )
+
+    payload = _loads(server.get_stock_quote("fake"))
+
+    assert payload["ticker"] == "FAKE"
+    assert payload["error"]
+    assert payload["installed_package"] == "public Fintools connector"
+
+
+def test_fetch_quote_returns_error_dict_on_provider_failure(monkeypatch):
+    class ExplodingTicker:
+        def __init__(self, symbol):
+            self.symbol = symbol
+
+        @property
+        def fast_info(self):
+            raise KeyError("exchangeTimezoneName")
+
+    monkeypatch.setattr(data.yf, "Ticker", ExplodingTicker)
+
+    quote = data.fetch_quote("faketickerxyz")
+
+    assert quote["ticker"] == "FAKETICKERXYZ"
+    assert "error" in quote
+
+
 def test_paid_tools_return_upgrade_required():
     checks = [
         server.get_trend_score("SPY"),
@@ -70,3 +106,18 @@ def test_paid_tools_return_upgrade_required():
         assert payload["required_package"] == "Fintools MCP"
         assert payload["upgrade"]["status"] == "available"
         assert payload["upgrade"]["discount_code"] == "FOUNDING"
+
+
+def test_paid_stub_signatures_match_buyer_contract():
+    tools = {tool.name: tool for tool in asyncio.run(server.mcp.list_tools())}
+    market_snapshot_params = tools["get_market_snapshot"].inputSchema["properties"]
+    winner_scan_params = tools["winner_similarity_scan"].inputSchema["properties"]
+
+    assert set(market_snapshot_params) == {"ticker"}
+    assert set(winner_scan_params) == {
+        "tickers",
+        "exclude_symbols",
+        "max_results",
+    }
+    assert winner_scan_params["exclude_symbols"]["default"] == ""
+    assert winner_scan_params["max_results"]["default"] == 20

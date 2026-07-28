@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.6.2
+
+- Route paid-tool upgrade responses to the live Fintools MCP page on Whop.
+- Match the public paid-tool stub signatures to Fintools MCP 1.0.1.
+- Return a clean JSON error for unknown tickers or quote-provider failures.
+- Pin the MCP SDK below version 2 to preserve the current FastMCP import path.
+
 ## 0.6.1
 
 - Point paid-tool responses at the live Fintools MCP checkout.
