@@ -12,7 +12,7 @@ from fintools_mcp import __version__
 from fintools_mcp.data import fetch_quote, get_data_cache_stats
 
 PUBLIC_PROJECT_URL = "https://github.com/slimbiggins007/fintools-mcp"
-PAID_CHECKOUT_URL = "https://fintools.lemonsqueezy.com/checkout/buy/b14fb872-7073-4c53-b75f-2c04283da855"
+PAID_CHECKOUT_URL = "https://whop.com/fintools/fintools-mcp/"
 
 PUBLIC_TOOLS = [
     "about_fintools",

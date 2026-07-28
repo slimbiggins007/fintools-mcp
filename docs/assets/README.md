@@ -11,4 +11,4 @@ Do not add:
 - production-system screenshots
 - private Fintools MCP source files
 
-Use `fintools-mcp-card.svg` as a clean product-card source for Lemon Squeezy or social previews. Export to PNG at 1600 x 1200 before uploading where raster images are required.
+Use `fintools-mcp-card.svg` as a clean product-card source for Whop or social previews. Export to PNG at 1600 x 1200 before uploading where raster images are required.

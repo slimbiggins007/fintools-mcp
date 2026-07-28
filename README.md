@@ -28,7 +28,7 @@ The buyer package also includes playbooks, sample reports, setup notes, guardrai
 Get Fintools MCP:
 
 ```text
-https://fintools.lemonsqueezy.com/checkout/buy/b14fb872-7073-4c53-b75f-2c04283da855
+https://whop.com/fintools/fintools-mcp/
 ```
 
 Founding code:
@@ -74,7 +74,7 @@ If you ask the public connector for the full market-analysis toolbelt, it return
 | [Paid Package](docs/paid-package.md) | What ships in the paid Fintools MCP package |
 | [Guardrails](docs/guardrails.md) | Read-only design, no trade recommendations, and "not checked" caveats |
 | [MCP Setup](docs/mcp-setup.md) | Claude Code, Claude Desktop, Cursor-style MCP config, and reload checks |
-| [Media Kit](docs/media-kit.md) | Screenshot and demo-clip checklist for GitHub, Lemon Squeezy, and launch posts |
+| [Media Kit](docs/media-kit.md) | Screenshot and demo-clip checklist for GitHub, Whop, and launch posts |
 
 ## Guides
 

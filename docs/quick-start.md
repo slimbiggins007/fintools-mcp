@@ -73,5 +73,5 @@ fintools-mcp --about
 The complete market-analysis toolbelt is distributed as the paid Fintools MCP package:
 
 ```text
-https://fintools.lemonsqueezy.com/checkout/buy/b14fb872-7073-4c53-b75f-2c04283da855
+https://whop.com/fintools/fintools-mcp/
 ```

@@ -1,6 +1,6 @@
 # Media Kit
 
-Use this checklist for GitHub attachments, Lemon Squeezy product media, and X/LinkedIn launch posts.
+Use this checklist for GitHub attachments, Whop product media, and X/LinkedIn launch posts.
 
 Do not record private account information, broker/account output, scan-log paths, private research files, or anything from a live trading account.
 
@@ -39,7 +39,7 @@ Message:
 Fintools MCP is the local market-context desk: computed numbers, explicit caveats, no trade recommendations.
 ```
 
-### 3. Lemon Squeezy
+### 3. Whop
 
 Recommended product image size:
 
@@ -87,7 +87,7 @@ Keep the first clip under 45 seconds.
 3. Ask for a full-desk workflow.
 4. Show the honest paid-package boundary.
 5. Show Fintools MCP running the same kind of request with computed output.
-6. End on the Lemon Squeezy checkout link and `FOUNDING` code.
+6. End on the Whop checkout link and `FOUNDING` code.
 
 ## Safe Demo Environment
 

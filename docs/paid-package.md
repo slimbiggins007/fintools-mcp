@@ -46,7 +46,7 @@ Use Fintools MCP for market context. Use your broker API/MCP for live executable
 ## Get Fintools MCP
 
 ```text
-https://fintools.lemonsqueezy.com/checkout/buy/b14fb872-7073-4c53-b75f-2c04283da855
+https://whop.com/fintools/fintools-mcp/
 ```
 
 Founding code:

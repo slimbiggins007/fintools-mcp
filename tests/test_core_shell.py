@@ -14,7 +14,7 @@ def test_about_fintools_describes_public_connector_and_paid_package():
     assert "get_stock_quote" in payload["public_connector_tools"]
     assert "get_trend_score" in payload["paid_fintools_mcp_tools"]
     assert payload["upgrade"]["status"] == "available"
-    assert payload["upgrade"]["url"].startswith("https://fintools.lemonsqueezy.com/checkout/")
+    assert payload["upgrade"]["url"] == "https://whop.com/fintools/fintools-mcp/"
 
 
 def test_check_connection():
